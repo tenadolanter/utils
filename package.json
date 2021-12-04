@@ -1,0 +1,33 @@
+{
+  "name": "@tenado/utils",
+  "version": "1.0.0",
+  "description": "项目中的常见工具方法整理",
+  "keywords": [
+    "utils",
+    "工具方法"
+  ],
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tenadolanter/utils.git"
+  },
+  "author": "tenado",
+  "license": "Apache License 2.0",
+  "bugs": {
+    "url": "https://github.com/tenadolanter/utils/issues"
+  },
+  "homepage": "https://github.com/tenadolanter/utils#readme",
+  "devDependencies": {
+    "typescript": "^4.5.2",
+    "vite": "^5.2.7"
+  },
+  "dependencies": {
+    "axios": "^1.6.8"
+  }
+}
