@@ -24,7 +24,7 @@ jobs:
           SPACE_CHAR=" "
           npx standard-version --releaseCommitMessageFormat "chore(release):${SPACE_CHAR}{{currentTag}}"
           npm install
-          npm run build:lib
+          npm run build
           npm publish --access public
           git push --follow-tags origin $CI_COMMIT_REF_NAME
         env:
