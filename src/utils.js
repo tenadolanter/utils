@@ -175,3 +175,53 @@ export const traverseTree = (tree, children = "children", callback) => {
     return result;
   });
 };
+
+/**
+ * 防抖
+ * @param { Function } - fn 需要防抖的函数
+ * @param { number } - delay 防抖时间，单位ms
+ *
+ * */
+export const debounce = (fn, delay = 300) => {
+  let timer;
+  let cancelled = false;
+  const self = this;
+  const cancel = () => {
+    if (timer) clearTimeout(timer);
+    cancelled = true;
+  };
+  const warpper = (...args) => {
+    if (cancelled) return;
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(self, args);
+    }, delay);
+  };
+  warpper.cancel = cancel;
+  return warpper;
+};
+
+/**
+ * 节流
+ * @param { Function } - fn 需要节流的函数
+ * @param { number } - delay 节流时间，单位ms
+ *
+ * */
+export const throttle = (fn, delay = 300) => {
+  let lastTime = 0;
+  let cancelled = false;
+  const self = this;
+  const cancel = () => {
+    cancelled = true;
+  };
+  const warpper = (...args) => {
+    if (cancelled) return;
+    const now = new Date().getTime();
+    if (now - lastTime >= delay) {
+      fn.apply(self, args);
+      lastTime = now;
+    }
+  };
+  warpper.cancel = cancel;
+  return warpper;
+};
