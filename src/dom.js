@@ -1,4 +1,4 @@
-import { camelCase } from "./utils.js"
+import { toCamelCase } from "./string.js";
 export const hasClass = (el, cls) => {
   if (!el || !cls) return false;
   if (cls.indexOf(" ") !== -1)
@@ -52,12 +52,12 @@ export const removeClass = (el, cls) => {
 
 export const getStyle = (el, styleName) => {
   if (!el || !styleName) return null;
-  styleName = camelCase(styleName);
-  if (styleName === 'float') {
-    styleName = 'cssFloat';
+  styleName = toCamelCase(styleName);
+  if (styleName === "float") {
+    styleName = "cssFloat";
   }
   try {
-    var computed = document.defaultView.getComputedStyle(el, '');
+    var computed = document.defaultView.getComputedStyle(el, "");
     return el.style[styleName] || computed ? computed[styleName] : null;
   } catch (e) {
     return el.style[styleName];
@@ -67,16 +67,18 @@ export const getStyle = (el, styleName) => {
 export const setStyle = (el, styleName, value) => {
   if (!el || !styleName) return;
 
-  if (typeof styleName === 'object') {
+  if (typeof styleName === "object") {
     for (var prop in styleName) {
       if (styleName.hasOwnProperty(prop)) {
         setStyle(el, prop, styleName[prop]);
       }
     }
   } else {
-    styleName = camelCase(styleName);
-    if (styleName === 'opacity' && ieVersion < 9) {
-      el.style.filter = isNaN(value) ? '' : 'alpha(opacity=' + value * 100 + ')';
+    styleName = toCamelCase(styleName);
+    if (styleName === "opacity" && ieVersion < 9) {
+      el.style.filter = isNaN(value)
+        ? ""
+        : "alpha(opacity=" + value * 100 + ")";
     } else {
       el.style[styleName] = value;
     }
