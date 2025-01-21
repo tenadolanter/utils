@@ -102,34 +102,31 @@ export const sleep = async (ms = 200) => {
 
 /**
  * 循环执行某个方法
- * @param { Function } - execFn 需要循环执行的方法
- * @param { Function } - stopFn 控制循环停止的方法
+ * @param { Function } - fn 需要循环执行的方法
  * @param { number } - interval 循环间隔时间，单位ms
  *
  */
-export const loop = (execFn, stopFn, interval = 1000) => {
-  if (typeof execFn !== "function") {
-    throw new Error("execFn 必须是一个方法");
-  }
-  if (typeof stopFn !== "function") {
-    throw new Error("stopFn 必须是一个方法");
+export const loop = (fn, interval = 1000) => {
+  if (typeof fn !== "function") {
+    throw new Error("fn 必须是一个方法");
   }
   if (typeof interval !== "number" || interval <= 0) {
     throw new Error("interval 必须是一个大于 0 的正整数");
   }
   let timer;
+  let isRunning = false;
   const loopInner = async () => {
-    await execFn();
-    if (stopFn()) {
-      console.info("停止循环");
-      clearTimeout(timer);
-    } else {
-      timer = setTimeout(loopInner, interval);
-    }
+    if (isRunning) return;
+    await fn();
+    isRunning = false;
+    timer = setTimeout(loopInner, interval);
   };
   console.info("开始循环");
   loopInner();
-  return timer;
+  return () => {
+    timer && clearTimeout(timer);
+    console.info("结束循环");
+  };
 };
 
 /**
